@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Fetch API User DATA</title>
+    <script>
+        //Hint: use endpoint https://api.github.com/users/{INPUT UserName}
+        function getApiData(){
+        var url = 'https://api.github.com/users';
+        var un = document.getElementById("user"); //redaing user name given from user
+        //var span1 = document.getElementById("span1");-use this if you use span element to render output
+        un = url+"/"+un.value; //appending it to the url
+        console.log(un);
+        const display = (data) => {
+            var result = [" "]; //creating a empty result array to later store api result
+            result=data.split(','); //splitting the respon data which is json string with delimiter ","-and storing the result in result array
+            //console.log(result);
+            for(var i=0; i<result.length;i++){
+                var li = document.createElement("LI"); //creating new child li elements and appending it to current element
+                var text = document.createTextNode(result[i]);
+                li.appendChild(text);
+                document.getElementById("api").appendChild(li); //ul element with "api" id 
+            //span1.innerHTML = result[i]; -- use this if you are using span to render output instead of ul list
+            }
+        };
+        fetch(un) //fetch from api https://api.github.com/users/{INPUT UserName}
+        .then((resp) => resp.json())
+        .then(function(data){
+            display(JSON.stringify(data));
+        })
+        }
+    </script>
+</head>
+<body>
+    Enter User Name for which you want to Fetch Data:
+    <input type="text" id="user" value="Enter User Name"><br>
+    <button onclick="getApiData()">Click ME</button><hr>
+   <!-- <span id="span1"></span> you could use span also instead of unordered list, but you will get output clumpsy-->
+    <ul id="api"  style="list-style: none;"></ul> <!--Creating an empty ul to write Git Api user details-->         
+</body>
+</html>
